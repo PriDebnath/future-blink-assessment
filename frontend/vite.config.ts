@@ -1,11 +1,38 @@
+import path from 'path'
 import { defineConfig } from 'vite'
-import react, { reactCompilerPreset } from '@vitejs/plugin-react'
-import babel from '@rolldown/plugin-babel'
+import react from '@vitejs/plugin-react'
+import tailwindcss from '@tailwindcss/vite'
+import routerPlugin, { tanstackRouter } from '@tanstack/router-plugin/vite'
 
-// https://vite.dev/config/
-export default defineConfig({
-  plugins: [
-    react(),
-    babel({ presets: [reactCompilerPreset()] })
-  ],
+ 
+export default defineConfig(({ mode }) => {
+  const isGithub = mode === 'github'
+
+  return {
+    // 🔑 BASE URL
+    // Android → "./"
+    // GitHub Pages → "/Notes/"
+    base: isGithub ? '/Notes/' : './',
+    plugins: [
+      react({
+        babel: {
+          plugins: [['babel-plugin-react-compiler']],
+        },
+      }),
+      tailwindcss(),
+      routerPlugin(),
+      // tanstackRouter({
+      //   // Configure for test environment
+      //   routesDirectory: './src/routes',
+      //   generatedRouteTree: './src/routeTree.gen.ts',
+      //   // disableLogging: true,
+      // }),
+    ],
+    // envDir: "../",
+    resolve: {
+      alias: {
+        '@': path.resolve(__dirname, './src'),
+      },
+    },
+  }
 })
