@@ -1,14 +1,23 @@
-import express from "express";
 import cors from "cors";
-import dotenv from "dotenv";
 import axios from "axios";
+import dotenv from "dotenv";
+import express from "express";
+import mongoose from "mongoose";
 
-dotenv.config();
+dotenv.config()  /// Load env dat
+
+let uri =  process.env.MONGO_URI
 
 const app = express();
 
 app.use(cors());
-app.use(express.json());
+app.use(express.json({strict: false}));
+
+mongoose 
+  .connect(uri, { family:4 })
+  .then(() => console.log("MongoDB Connected"))
+  .catch((err) => console.error(err));
+
 app.post("/api/ask-ai", async (req, res) => {
     console.log(req.body);
     try {
@@ -46,7 +55,7 @@ app.post("/api/ask-ai", async (req, res) => {
             .json({ error: message || "Something went wrong" });
     }
 });
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 8000;
 
 app.listen(PORT, () => {
     console.log(`Example app listening on port ${PORT}`)
