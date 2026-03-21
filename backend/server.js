@@ -5,7 +5,7 @@ import express from "express";
 import mongoose from "mongoose";
 import { model } from "./model/response.js";
 
-dotenv.config()  /// Load env dat
+dotenv.config()  /// Load env data
 
 let uri =  process.env.MONGO_URI
 
@@ -20,13 +20,13 @@ mongoose
   .catch((err) => console.error(err));
 
 let s = await model.find()
-// let m = new model({
-//       prompt: "quote_author",
-//       response: "quote_text",
-//       created_at: new Date().getTime(),
-//       modified_at: new Date().getTime(),
-//     });
-//    let d = await m.save()
+let m = new model({
+      prompt: "quote_author",
+      response: "quote_text",
+      created_at: new Date().getTime(),
+      modified_at: new Date().getTime(),
+    });
+   let d = await m.save()
 console.log({s});
 
 
@@ -91,4 +91,4 @@ const PORT = process.env.PORT || 8000;
 
 app.listen(PORT, () => {
     console.log(`Example app listening on port ${PORT}`)
-})
+})    
