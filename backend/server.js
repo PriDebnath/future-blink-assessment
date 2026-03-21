@@ -3,6 +3,7 @@ import axios from "axios";
 import dotenv from "dotenv";
 import express from "express";
 import mongoose from "mongoose";
+import { model } from "./model/response.js";
 
 dotenv.config()  /// Load env dat
 
@@ -17,6 +18,17 @@ mongoose
   .connect(uri, { family:4 })
   .then(() => console.log("MongoDB Connected"))
   .catch((err) => console.error(err));
+
+let s = await model.find()
+// let m = new model({
+//       prompt: "quote_author",
+//       response: "quote_text",
+//       created_at: new Date().getTime(),
+//       modified_at: new Date().getTime(),
+//     });
+//    let d = await m.save()
+console.log({s});
+
 
 app.post("/api/ask-ai", async (req, res) => {
     console.log(req.body);
@@ -55,6 +67,26 @@ app.post("/api/ask-ai", async (req, res) => {
             .json({ error: message || "Something went wrong" });
     }
 });
+
+
+app.post("/api/save", async (req, res) => {
+  try {
+    const { prompt, response } = req.body;
+
+    if (!prompt || !response) {
+      return res.status(400).json({ error: "Missing data" });
+    }
+
+    const newEntry = new Prompt({ prompt, response });
+    await newEntry.save();
+
+    res.json({ message: "Saved successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Save failed" });
+  }
+});
+
 const PORT = process.env.PORT || 8000;
 
 app.listen(PORT, () => {
