@@ -15,9 +15,9 @@ export default defineConfig(({ mode }) => {
     base: isGithub ? '/Notes/' : './',
     plugins: [
       react({
-        babel: {
-          plugins: [['babel-plugin-react-compiler']],
-        },
+        // babel: {
+          // plugins: [['babel-plugin-react-compiler']],
+        // },
       }),
       tailwindcss(),
       routerPlugin(),

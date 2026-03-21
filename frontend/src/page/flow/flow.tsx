@@ -1,17 +1,20 @@
- 
+
 import "reactflow/dist/style.css";
 import React, { useState, useCallback } from "react";
 import ReactFlow, { Background, Controls } from "reactflow";
 import InputNode from "@/feature/flow/component/input-node";
 import ResultNode from "@/feature/flow/component/result-node";
+import { useAskAi } from "@/hook/use-ask-ai";
 
 const nodeTypes = {
   inputNode: InputNode,
   resultNode: ResultNode,
 };
 
- function Flow() {
-  const [prompt, setPrompt] = useState("");
+function Flow() {
+
+  const { askAi } = useAskAi();
+  const [prompt, setPrompt] = useState("What is the capital of India?");
   const [response, setResponse] = useState("");
 
   const nodes = [
@@ -38,10 +41,10 @@ const nodeTypes = {
   ];
 
   const handleRun = async () => {
-    console.log("Prompt:", prompt);
+    const res = await askAi(prompt)
+    let message = res?.response || res?.error
 
-    // backend call will be added later
-    setResponse("Waiting for backend...");
+    setResponse(message);
   };
 
   return (
