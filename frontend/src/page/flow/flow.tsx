@@ -8,7 +8,7 @@ import { useSaveFlow } from "@/hook/use-save-flow";
 import { useGetFlows } from "@/hook/use-get-flows";
 import DeleteFlow from "@/feature/flow/component/delete-flow";
 import { Button } from "@/components/ui/button";
-import { File, PlayIcon } from "lucide-react";
+import { File, Loader2, PlayIcon } from "lucide-react";
 
 const nodeTypes = {
   inputNode: InputNode,
@@ -16,10 +16,9 @@ const nodeTypes = {
 };
 
 function Flow() {
-  const { askAi } = useAskAi();
-  const { saveFlow } = useSaveFlow();
+  const { askAi, isPending: isLoadingAiResponse } = useAskAi();
+  const { saveFlow, isPending: isLoadingSaveFlow } = useSaveFlow();
   const { data: savedFlows, isLoading: isLoadingSavedFlows } = useGetFlows();
-
   const [prompt, setPrompt] = useState("What is the capital of India?");
   const [response, setResponse] = useState("del");
 
@@ -47,9 +46,12 @@ function Flow() {
   ];
 
   const handleRunFlow = async () => {
+    setResponse("Thinking...");
     const res = await askAi(prompt);
     let message = res?.response || res?.error;
-    setResponse(message);
+    setTimeout(() => {
+      setResponse(message);
+    }, 10);
   };
   console.log({ savedFlows });
 
@@ -68,20 +70,40 @@ function Flow() {
 
           {/* TOP BAR */}
           <div className="flex justify-end gap-2 p-2 border-b bg-gray-200 ">
-            <Button
-              onClick={handleRunFlow}
-              // variant={''}
-              className="px-3 py-1 bg-green-500  text-white rounded-xl"
-            >
-              <PlayIcon />  Run Flow
-            </Button>
+
             <Button
               onClick={handleSaveFlow}
-
+              disabled={isLoadingSaveFlow}
               className="px-3 py-1 bg-blue-500  text-white rounded"
             >
-              <File />
-              Save Flow
+              {isLoadingSaveFlow ? (
+                <>
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                  Saving...
+                </>
+              ) : (
+                <>
+                  <File className="h-4 w-4" />
+                  Save Flow
+                </>
+              )}
+            </Button>
+            <Button
+              onClick={handleRunFlow}
+              disabled={isLoadingAiResponse}
+              className="px-3 py-1 bg-green-500  text-white rounded-xl"
+            >
+              {isLoadingAiResponse ? (
+                <>
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                  Running...
+                </>
+              ) : (
+                <>
+                  <PlayIcon className="h-4 w-4" />
+                  Run Flow
+                </>
+              )}
             </Button>
           </div>
 
@@ -103,7 +125,7 @@ function Flow() {
 
             {/* Loader */}
             {isLoadingSavedFlows && (
-              <div className="flex flex-col  justify-center flex-1">
+              <div className="flex flex-col   flex-1">
                 {/* <div className="animate-spin h-6 w-6 border-2 border-gray-400 border-t-transparent rounded-full" /> */}
                 <div className="h-4 w-3/4 bg-gray-300 rounded mb-3 animate-pulse  delay-500" />
                 <div className="h-4 w-full bg-gray-300 rounded mb-2 animate-pulse delay-1000" />

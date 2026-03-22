@@ -19,6 +19,14 @@ mongoose
     .then(() => console.log("MongoDB Connected"))
     .catch((err) => console.error(err));
 
+app.get("/", async (req, res) => {
+    try {
+        res.status(200).json({ message: "success"});
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Get failed" });
+    }
+});
 
 app.post("/api/ask-ai", async (req, res) => {
     console.log(req.body);
