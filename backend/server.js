@@ -26,11 +26,12 @@ app.post("/api/ask-ai", async (req, res) => {
         const { prompt } = req.body;
 
         const response = await axios.post(
-            "https://api.groq.com/openai/v1/chat/completions",
-            //   "https://openrouter.ai/api/v1/chat/completions",
+            // "https://api.groq.com/openai/v1/chat/completions",
+              "https://openrouter.ai/api/v1/chat/completions",
             {
-                model: "llama-3.1-8b-instant",
-                // model: "mistralai/mistral-7b-instruct:free",
+                // model: "llama-3.1-8b-instant",
+                model: "openrouter/free",
+                max_tokens: 100,
                 messages: [
                     {
                         role: "user",
