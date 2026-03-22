@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
+import { Schema} from "mongoose";
 
-const schema = mongoose.Schema({
+const schema =  new Schema({
   prompt: String,
   response: String,
   created_at: Number,
