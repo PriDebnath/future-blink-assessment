@@ -3,7 +3,7 @@ import {
   createFlow,
   getFlows,
   deleteFlow,
-} from "../controllers/flow.controllers.js";
+} from "../controllers/flow.controllers";
 
 const router = Router();
 

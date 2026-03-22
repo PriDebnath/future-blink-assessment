@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { model as FlowModel } from "../models/index.js";
+import { model as FlowModel } from "../models/index";
 
 export const createFlow = async (req: Request, res: Response) => {
   try {
