@@ -5,6 +5,7 @@ import ReactFlow, { Background, Controls } from "reactflow";
 import InputNode from "@/feature/flow/component/input-node";
 import ResultNode from "@/feature/flow/component/result-node";
 import { useAskAi } from "@/hook/use-ask-ai";
+import { useSaveFlow } from "@/hook/use-save-flow";
 
 const nodeTypes = {
   inputNode: InputNode,
@@ -14,8 +15,9 @@ const nodeTypes = {
 function Flow() {
 
   const { askAi } = useAskAi();
+  const { saveFlow } = useSaveFlow();
   const [prompt, setPrompt] = useState("What is the capital of India?");
-  const [response, setResponse] = useState("");
+  const [response, setResponse] = useState("del");
 
   const nodes = [
     {
@@ -40,20 +42,34 @@ function Flow() {
     },
   ];
 
-  const handleRun = async () => {
+  const handleRunFlow = async () => {
     const res = await askAi(prompt)
     let message = res?.response || res?.error
 
     setResponse(message);
   };
 
+  const handleSaveFlow = async () => {
+    if (!prompt) return
+    if (!response) return
+    const res = await saveFlow({ prompt, response })
+    console.log({ res });
+
+  };
+
   return (
     <div style={{ height: "100vh" }}>
       <button
-        onClick={handleRun}
+        onClick={handleRunFlow}
         style={{ position: "absolute", zIndex: 10, top: 10, left: 10 }}
       >
         Run Flow
+      </button>
+      <button
+        onClick={handleSaveFlow}
+        style={{ position: "absolute", zIndex: 10, top: 10, left: 100 }}
+      >
+        Save Flow
       </button>
 
       <ReactFlow nodes={nodes} edges={edges} nodeTypes={nodeTypes}>

@@ -3,31 +3,21 @@ import axios from "axios";
 import dotenv from "dotenv";
 import express from "express";
 import mongoose from "mongoose";
-import { model } from "./model/response.js";
+import { model as flow } from "./model/response.js";
 
 dotenv.config()  /// Load env data
 
-let uri =  process.env.MONGO_URI
+let uri = process.env.MONGO_URI
 
 const app = express();
 
 app.use(cors());
-app.use(express.json({strict: false}));
+app.use(express.json({ strict: false }));
 
-mongoose 
-  .connect(uri, { family:4 })
-  .then(() => console.log("MongoDB Connected"))
-  .catch((err) => console.error(err));
-
-let s = await model.find()
-let m = new model({
-      prompt: "quote_author",
-      response: "quote_text",
-      created_at: new Date().getTime(),
-      modified_at: new Date().getTime(),
-    });
-   let d = await m.save()
-console.log({s});
+mongoose
+    .connect(uri, { family: 4 })
+    .then(() => console.log("MongoDB Connected"))
+    .catch((err) => console.error(err));
 
 
 app.post("/api/ask-ai", async (req, res) => {
@@ -51,7 +41,7 @@ app.post("/api/ask-ai", async (req, res) => {
             {
                 headers: {
                     Authorization: `Bearer ${process.env.OPENROUTER_API_KEY}`,
-                 "Content-Type": "application/json",
+                    "Content-Type": "application/json",
                 },
             }
         );
@@ -69,22 +59,34 @@ app.post("/api/ask-ai", async (req, res) => {
 });
 
 
-app.post("/api/save", async (req, res) => {
-  try {
-    const { prompt, response } = req.body;
-
-    if (!prompt || !response) {
-      return res.status(400).json({ error: "Missing data" });
+app.post("/api/save-flow", async (req, res) => {
+    try {
+        const { prompt, response } = req.body;
+        if (!prompt || !response) {
+            return res.status(400).json({ error: "Missing data" });
+        }
+        let newFlow = new flow({
+            prompt,
+            response,
+            created_at: new Date().getTime(),
+            modified_at: new Date().getTime(),
+        });
+        let savedFlow = await newFlow.save()
+        res.status(201).json(savedFlow);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Save failed" });
     }
+});
 
-    const newEntry = new Prompt({ prompt, response });
-    await newEntry.save();
-
-    res.json({ message: "Saved successfully" });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Save failed" });
-  }
+app.get("/api/save-flow", async (req, res) => {
+    try {
+        let savedFlows = await flow.find()
+        res.status(200).json(savedFlows);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Get failed" });
+    }
 });
 
 const PORT = process.env.PORT || 8000;
