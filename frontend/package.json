@@ -3,6 +3,11 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+    "author": {
+    "name": "Pritam Debnath",
+    "email": "debnathpritam0802@gmail.com",
+    "url": "https://github.com/PriDebnath/portfolio-v2"
+  },
   "scripts": {
     "start": "vite",
     "dev": "vite",
