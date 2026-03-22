@@ -61,7 +61,7 @@ function Flow() {
 
   return (
     <div className="h-screen  flex flex-col">
-      <h1 className="p-2 bg-gray-200">FutureBlink Assessment (MERN stack)</h1>
+      <h1 className="p-2 bg-gray-200">FutureBlink Assessment (MERN app)</h1>
       <div className="flex-1 min-h-0 grid grid-cols-12 gap-2 p-2">
         {/* LEFT PANEL */}
         <div className="col-span-10 flex flex-col border-4 rounded-2xl overflow-hidden">

@@ -7,7 +7,7 @@ interface Props {
 
 function ResultNode({ data }: NodeProps<Props>) {
   return (
-    <div style={{ padding: 10, background: "#f0f0f0", border: "1px solid #ddd" }}>
+    <div className="p-2 border-2 rounded-xl border-gray-300 bg-gray-200">
       <div style={{ width: "200px", minHeight: "80px" }}>
         {data.response || "AI response will appear here"}
       </div>
