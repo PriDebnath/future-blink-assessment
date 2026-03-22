@@ -5,6 +5,7 @@ import InputNode from "@/feature/flow/component/input-node";
 import ResultNode from "@/feature/flow/component/result-node";
 import { useAskAi } from "@/hook/use-ask-ai";
 import { useSaveFlow } from "@/hook/use-save-flow";
+import { useGetSaveFlow } from "@/hook/use-get-save-flow";
 
 const nodeTypes = {
   inputNode: InputNode,
@@ -14,6 +15,7 @@ const nodeTypes = {
 function Flow() {
   const { askAi } = useAskAi();
   const { saveFlow } = useSaveFlow();
+  const { data: savedFlows, isLoading:  isLoadingSavedFlows} = useGetSaveFlow();
 
   const [prompt, setPrompt] = useState("What is the capital of India?");
   const [response, setResponse] = useState("del");
@@ -87,7 +89,44 @@ function Flow() {
       {/* RIGHT PANEL */}
       <div className="col-span-2 border-4 rounded-2xl ">
         <h2 className="font-semibold m-0 bg-gray-200 p-2">Saved Flows</h2>
-        <div className="p-2">list</div>
+        <div className="p-2">
+          
+
+
+  {/* Loader */}
+  {isLoadingSavedFlows && (
+    <div className="flex items-center justify-center flex-1">
+      <div className="animate-spin h-6 w-6 border-2 border-gray-400 border-t-transparent rounded-full" />
+    </div>
+  )}
+
+  {/* Empty state */}
+  {!isLoadingSavedFlows && savedFlows?.length === 0 && (
+    <div className="text-sm text-gray-500 text-center mt-4">
+      No flows saved
+    </div>
+  )}
+
+  {/* List */}
+  {!isLoadingSavedFlows && savedFlows &&  savedFlows?.length! > 0 && (
+    <div className="flex flex-col gap-2 overflow-y-auto">
+      {savedFlows.map((flow) => (
+        <div
+          key={flow.id}
+          className="p-2 border rounded hover:bg-gray-50 cursor-pointer transition"
+        >
+          <div className="text-sm font-medium truncate">
+            {flow.prompt}
+          </div>
+         {/*   <div className="text-xs text-gray-500 truncate">
+           {flow.response}
+          </div> */}
+        </div>
+      ))}
+    </div>
+  )}
+
+        </div>
       </div>
 
     </div>
