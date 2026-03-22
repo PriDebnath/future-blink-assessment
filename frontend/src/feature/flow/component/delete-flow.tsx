@@ -20,7 +20,7 @@ interface Props {
 export default memo(DeleteDialog)
 
 function DeleteDialog(props: Props) {
-const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState(false)
   const { data } = props
   const { deleteFlow } = useDeleteFlow()
 
@@ -30,21 +30,20 @@ const [open, setOpen] = useState(false)
       id: data?._id
     })
     console.log({ res });
-        setOpen(false)
+    setOpen(false)
 
   }
 
   return (
-    <Dialog  open={open} onOpenChange={setOpen}>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger render={
         <Button variant="ghost"
           className={'cursor-pointer'}
-            onClick={(e) => {
-        e.stopPropagation()
-        setOpen(true)
-      }}><X /></Button>
-
-
+          onClick={(e) => {
+            e.stopPropagation()
+            setOpen(true)
+          }}><X />
+          </Button>
       }  >
       </DialogTrigger>
       <DialogContent className="">

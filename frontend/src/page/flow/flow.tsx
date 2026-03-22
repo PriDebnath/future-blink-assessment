@@ -5,7 +5,7 @@ import InputNode from "@/feature/flow/component/input-node";
 import ResultNode from "@/feature/flow/component/result-node";
 import { useAskAi } from "@/hook/use-ask-ai";
 import { useSaveFlow } from "@/hook/use-save-flow";
-import { useGetFlows } from "@/hook/use-get-flows";
+import { useGetFlows, type SavedFlow } from "@/hook/use-get-flows";
 import DeleteFlow from "@/feature/flow/component/delete-flow";
 import { Button } from "@/components/ui/button";
 import { File, Loader2, PlayIcon } from "lucide-react";
@@ -18,7 +18,7 @@ const nodeTypes = {
 function Flow() {
   const { askAi, isPending: isLoadingAiResponse } = useAskAi();
   const { saveFlow, isPending: isLoadingSaveFlow } = useSaveFlow();
-  const { data: savedFlows, isLoading: isLoadingSavedFlows } = useGetFlows();
+  const { data: savedFlows, isLoading: isLoadingSavedFlows, error: errorSavedFlows } = useGetFlows();
   const [prompt, setPrompt] = useState("What is the capital of India?");
   const [response, setResponse] = useState("del");
 
@@ -53,12 +53,15 @@ function Flow() {
       setResponse(message);
     }, 10);
   };
-  console.log({ savedFlows });
+
+  const handleClickFlow = async (data: SavedFlow) => {
+    setPrompt(data.prompt);
+    setResponse(data.response);
+  };
 
   const handleSaveFlow = async () => {
     if (!prompt || !response) return;
     const res = await saveFlow({ prompt, response });
-    console.log({ res });
   };
 
   return (
@@ -146,11 +149,12 @@ function Flow() {
                 {savedFlows.map((flow) => (
                   <div
                     key={flow._id}
-                    className="p-2 border rounded hover:bg-gray-50 cursor-pointer transition flex items-center justify-between"
+                    onClick={() => { handleClickFlow(flow) }}
+                    className="  p-2 border rounded hover:bg-gray-50 cursor-pointer transition flex items-center justify-between"
                   >
-                    <div className="text-sm font-medium truncate">
+                    <span className="text-sm font-medium truncate">
                       {flow.prompt}
-                    </div>
+                    </span>
                     <DeleteFlow data={flow} />
                     {/*   <div className="text-xs text-gray-500 truncate">
            {flow.response}
@@ -159,6 +163,13 @@ function Flow() {
                 ))}
               </div>
             )}
+            {
+              errorSavedFlows && (
+                <div>
+                  {errorSavedFlows.message}
+                </div>
+              )
+            }
 
           </div>
         </div>
