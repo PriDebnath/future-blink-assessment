@@ -11,8 +11,8 @@ export default defineConfig(({ mode }) => {
   return {
     // 🔑 BASE URL
     // Android → "./"
-    // GitHub Pages → "/Notes/"
-    base: isGithub ? '/Notes/' : './',
+    // GitHub Pages → "/repo-name/"
+    base: isGithub ? '/future-blink-assessment/' : './',
     plugins: [
       react({
         // babel: {

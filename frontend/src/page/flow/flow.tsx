@@ -48,6 +48,7 @@ function Flow() {
     let message = res?.response || res?.error;
     setResponse(message);
   };
+console.log({savedFlows});
 
   const handleSaveFlow = async () => {
     if (!prompt || !response) return;
@@ -112,7 +113,7 @@ function Flow() {
     <div className="flex flex-col gap-2 overflow-y-auto">
       {savedFlows.map((flow) => (
         <div
-          key={flow.id}
+          key={flow._id}
           className="p-2 border rounded hover:bg-gray-50 cursor-pointer transition"
         >
           <div className="text-sm font-medium truncate">

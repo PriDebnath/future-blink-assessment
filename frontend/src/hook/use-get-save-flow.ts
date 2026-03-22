@@ -2,7 +2,7 @@ import { BASE_API_URL } from "@/enviroments";
 import { useMutation, useQuery } from "@tanstack/react-query";
 
 type SaveFlow = {
-    id: string,
+    _id: string,
     prompt: string,
     response: string,
     created_at: number,
