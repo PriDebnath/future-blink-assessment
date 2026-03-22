@@ -28,7 +28,7 @@ export const createFlow = async (req: Request, res: Response) => {
 export const getFlows = async (_req: Request, res: Response) => {
   try {
     const flows = await FlowModel.find();
-    res.status(200).json(flows);
+            res.status(200).json(flows);
   } catch {
     res.status(500).json({ error: "Get failed" });
   }

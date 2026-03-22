@@ -25,13 +25,10 @@ function DeleteDialog(props: Props) {
   const { deleteFlow } = useDeleteFlow()
 
   const handleFormSubmit = async (e: React.FormEvent) => {
-    console.log({ data });
     const res = await deleteFlow({
       id: data?._id
     })
-    console.log({ res });
     setOpen(false)
-
   }
 
   return (

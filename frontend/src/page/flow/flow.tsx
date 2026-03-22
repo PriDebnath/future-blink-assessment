@@ -1,5 +1,5 @@
 import "reactflow/dist/style.css";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ReactFlow, { Background, Controls } from "reactflow";
 import InputNode from "@/feature/flow/component/input-node";
 import ResultNode from "@/feature/flow/component/result-node";
@@ -19,8 +19,8 @@ function Flow() {
   const { askAi, isPending: isLoadingAiResponse } = useAskAi();
   const { saveFlow, isPending: isLoadingSaveFlow } = useSaveFlow();
   const { data: savedFlows, isLoading: isLoadingSavedFlows, error: errorSavedFlows } = useGetFlows();
-  const [prompt, setPrompt] = useState("What is the capital of India?");
-  const [response, setResponse] = useState("del");
+  const [prompt, setPrompt] = useState("");
+  const [response, setResponse] = useState("");
 
   const nodes = [
     {
@@ -63,6 +63,23 @@ function Flow() {
     if (!prompt || !response) return;
     const res = await saveFlow({ prompt, response });
   };
+
+
+  const [showSlowLoader, setShowSlowLoader] = useState(false);
+
+  useEffect(() => {
+    let timer: ReturnType<typeof setTimeout>
+
+    if (isLoadingSavedFlows) {
+      timer = setTimeout(() => {
+        setShowSlowLoader(true);
+      }, 3000) // 3 seconds
+    } else {
+      setShowSlowLoader(false);
+    }
+
+    return () => clearTimeout(timer);
+  }, [isLoadingSavedFlows]);
 
   return (
     <div className="h-screen  flex flex-col">
@@ -123,9 +140,6 @@ function Flow() {
         <div className=" col-span-2 border-4 rounded-2xl  flex flex-col min-h-0">
           <h2 className="font-semibold m-0 bg-gray-200 p-2">Saved Flows</h2>
           <div className="p-2  flex-1 min-h-0 flex flex-col">
-
-
-
             {/* Loader */}
             {isLoadingSavedFlows && (
               <div className="flex flex-col   flex-1">
@@ -133,6 +147,13 @@ function Flow() {
                 <div className="h-4 w-3/4 bg-gray-300 rounded mb-3 animate-pulse  delay-500" />
                 <div className="h-4 w-full bg-gray-300 rounded mb-2 animate-pulse delay-1000" />
                 <div className="h-4 w-5/6 bg-gray-300 rounded mb-4 animate-pulse delay-200" />
+                {
+                  showSlowLoader && (
+                    <div className="bg-gray-300 rounded mb-4  px-1">
+                      This is taking a bit longer than usual, Hold tight (50sec)...
+                    </div>
+                  )
+                }
               </div>
             )}
 
