@@ -1,7 +1,7 @@
 import { BASE_API_URL } from "@/enviroments";
 import { useMutation, useQuery } from "@tanstack/react-query";
 
-type SaveFlow = {
+export type SavedFlow = {
     _id: string,
     prompt: string,
     response: string,
@@ -9,8 +9,8 @@ type SaveFlow = {
     modified_at: number,
 };
 
-const getSaveFlowFunction = async () => {
-    let res = await fetch(BASE_API_URL + "/api/save-flow", {
+const getFlowsFunction = async () => {
+    let res = await fetch(BASE_API_URL + "/api/flow", {
         method: "GET",
         headers: {
             "Content-Type": "application/json"
@@ -19,10 +19,12 @@ const getSaveFlowFunction = async () => {
     return await res.json()
 }
 
-export const useGetSaveFlow = () => {
-    const response = useQuery<SaveFlow[]>({
-        queryFn: getSaveFlowFunction,
-        queryKey: ["get-saved-flow"]
+export const useGetFlowsQueryKey = "get-flows"
+
+export const useGetFlows = () => {
+    const response = useQuery<SavedFlow[]>({
+        queryFn: getFlowsFunction,
+        queryKey: [useGetFlowsQueryKey]
     })
     return response
 }

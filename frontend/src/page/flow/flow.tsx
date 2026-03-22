@@ -5,7 +5,8 @@ import InputNode from "@/feature/flow/component/input-node";
 import ResultNode from "@/feature/flow/component/result-node";
 import { useAskAi } from "@/hook/use-ask-ai";
 import { useSaveFlow } from "@/hook/use-save-flow";
-import { useGetSaveFlow } from "@/hook/use-get-save-flow";
+import { useGetFlows } from "@/hook/use-get-flows";
+import DeleteFlow from "@/feature/flow/component/delete-flow";
 
 const nodeTypes = {
   inputNode: InputNode,
@@ -15,7 +16,7 @@ const nodeTypes = {
 function Flow() {
   const { askAi } = useAskAi();
   const { saveFlow } = useSaveFlow();
-  const { data: savedFlows, isLoading:  isLoadingSavedFlows} = useGetSaveFlow();
+  const { data: savedFlows, isLoading:  isLoadingSavedFlows} = useGetFlows();
 
   const [prompt, setPrompt] = useState("What is the capital of India?");
   const [response, setResponse] = useState("del");
@@ -96,8 +97,11 @@ console.log({savedFlows});
 
   {/* Loader */}
   {isLoadingSavedFlows && (
-    <div className="flex items-center justify-center flex-1">
-      <div className="animate-spin h-6 w-6 border-2 border-gray-400 border-t-transparent rounded-full" />
+    <div className="flex flex-col  justify-center flex-1">
+      {/* <div className="animate-spin h-6 w-6 border-2 border-gray-400 border-t-transparent rounded-full" /> */}
+    <div className="h-4 w-3/4 bg-gray-300 rounded mb-3 animate-pulse  delay-500" />
+      <div className="h-4 w-full bg-gray-300 rounded mb-2 animate-pulse delay-1000" />
+      <div className="h-4 w-5/6 bg-gray-300 rounded mb-4 animate-pulse delay-200" />
     </div>
   )}
 
@@ -114,11 +118,12 @@ console.log({savedFlows});
       {savedFlows.map((flow) => (
         <div
           key={flow._id}
-          className="p-2 border rounded hover:bg-gray-50 cursor-pointer transition"
+          className="p-2 border rounded hover:bg-gray-50 cursor-pointer transition flex items-center justify-between"
         >
           <div className="text-sm font-medium truncate">
             {flow.prompt}
           </div>
+          <DeleteFlow data={flow}/>
          {/*   <div className="text-xs text-gray-500 truncate">
            {flow.response}
           </div> */}

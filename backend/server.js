@@ -60,7 +60,7 @@ app.post("/api/ask-ai", async (req, res) => {
 });
 
 
-app.post("/api/save-flow", async (req, res) => {
+app.post("/api/flow", async (req, res) => {
     try {
         const { prompt, response } = req.body;
         if (!prompt || !response) {
@@ -80,13 +80,30 @@ app.post("/api/save-flow", async (req, res) => {
     }
 });
 
-app.get("/api/save-flow", async (req, res) => {
+app.get("/api/flow", async (req, res) => {
     try {
         let savedFlows = await flow.find()
         res.status(200).json(savedFlows);
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: "Get failed" });
+    }
+});
+
+app.delete("/api/flow/:id", async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        const deletedFlow = await flow.findByIdAndDelete(id);
+
+        if (!deletedFlow) {
+            return res.status(404).json({ error: "Flow not found" });
+        }
+
+        res.status(200).json({ message: "Flow deleted successfully", deletedFlow });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Delete failed" });
     }
 });
 

@@ -3,26 +3,24 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useGetFlowsQueryKey } from "./use-get-flows";
 
 interface Flow {
-    prompt: string;
-    response: string;
+    id: string;
 }
 
-const saveFlowFunction = async (param: Flow) => {
-    let res = await fetch(BASE_API_URL + "/api/flow", {
-        method: "POST",
+const deleteFlowFunction = async (param: Flow) => {
+    let res = await fetch(BASE_API_URL + "/api/flow/" + param.id, {
+        method: "DELETE",
         headers: {
             "Content-Type": "application/json"
         },
-        body: JSON.stringify(param)
     })
     return await res.json()
 }
 
-export const useSaveFlow = () => {
+export const useDeleteFlow = () => {
     const queryClient = useQueryClient();
 
     const mutation = useMutation({
-        mutationFn: saveFlowFunction,
+        mutationFn: deleteFlowFunction,
         onSuccess: () => {
             queryClient.invalidateQueries({
                 queryKey: [useGetFlowsQueryKey]
@@ -31,6 +29,6 @@ export const useSaveFlow = () => {
     })
     return {
         ...mutation,
-        saveFlow: mutation.mutateAsync
+        deleteFlow: mutation.mutateAsync
     }
 }
