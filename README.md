@@ -55,15 +55,26 @@ npm run corepack:enable
 cd backend
 ``` 
 ```
+copy .env.example .env
+```
+Add your keys in .env file
+```
 npm run dev
 ```
 ---
 
 #  Docs
 ## Backend docs
-### MongoDB Connection Notes
+### Environment variables
+```
+PORT=8000
+
+OPENROUTER_API_KEY=your-api-key
+
+MONGO_URI=connection-string-from-db-provider
+```
+### MongoDB Connection String Notes
 - DB name comes from `MONGO_URI` from `.env` file (not schema/model)
 - No DB in URI → defaults to `test`
-- Add DB: `/db-name` before `?`
-- Multiple hosts = same cluster (replica set)
-- Mongoose pluralizes model → collection
+- Add DB: `/db-name` before `?` to set db name
+
