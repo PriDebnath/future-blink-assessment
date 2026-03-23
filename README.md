@@ -3,15 +3,16 @@
 ### 🔴 🖼️ Screenshot
 
 <a href="https://pridebnath.github.io/future-blink-assessment">
-<img height="480" src="frontend/public/demo.png" />
+<img height="480" src="frontend/public/future-blink-assessment-by-pritam-debnath.png" />
 </a>
 
 
 ### 🔴 🎥 Video
 
-[Notes - 23-01-2026.webm](https://github.com/user-attachments/assets/8afe9ded-c1a5-4208-9565-64d6343029a0)
+https://github.com/user-attachments/assets/92bee06f-802d-4be4-90b3-9d84773cc928
 
-⬇️ <a href="frontend/public/demo.webm" download="future-blink-assessment.webm">
+
+⬇️ <a href="frontend/public/future-blink-assessment-by-pritam-debnath.webm" download="future-blink-assessment.mp4">
   Download Demo Video
 </a>
 
