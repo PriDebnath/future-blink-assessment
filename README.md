@@ -12,7 +12,7 @@
 https://github.com/user-attachments/assets/92bee06f-802d-4be4-90b3-9d84773cc928
 
 
-⬇️ <a href="frontend/public/future-blink-assessment-by-pritam-debnath.webm" download="future-blink-assessment.mp4">
+⬇️ <a href="frontend/public/future-blink-assessment-by-pritam-debnath.mp4" download="future-blink-assessment.mp4">
   Download Demo Video
 </a>
 
