@@ -9,7 +9,6 @@
 
 ### 🔴 🎥 Video
 
-[Notes - 23-01-2026.webm](https://github.com/user-attachments/assets/8afe9ded-c1a5-4208-9565-64d6343029a0)
 
 ⬇️ <a href="frontend/public/demo.webm" download="future-blink-assessment.webm">
   Download Demo Video
