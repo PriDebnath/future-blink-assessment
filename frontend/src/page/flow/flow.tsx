@@ -89,42 +89,48 @@ function Flow() {
         <div className="col-span-10 flex flex-col border-4 rounded-2xl overflow-hidden">
 
           {/* TOP BAR */}
-          <div className="flex justify-end gap-2 p-2 border-b bg-gray-200 ">
+          <div className="flex justify-between items-center gap-2 p-2 border-b bg-gray-200 ">
 
-            <Button
-              onClick={handleSaveFlow}
-              disabled={isLoadingSaveFlow}
-              className="px-3 py-1 bg-blue-500  text-white rounded"
-            >
-              {isLoadingSaveFlow ? (
-                <>
-                  <Loader2 className="h-4 w-4 animate-spin" />
-                  Saving...
-                </>
-              ) : (
-                <>
-                  <File className="h-4 w-4" />
-                  Save Flow
-                </>
-              )}
-            </Button>
-            <Button
-              onClick={handleRunFlow}
-              disabled={isLoadingAiResponse}
-              className="px-3 py-1 bg-green-500  text-white rounded-xl"
-            >
-              {isLoadingAiResponse ? (
-                <>
-                  <Loader2 className="h-4 w-4 animate-spin" />
-                  Running...
-                </>
-              ) : (
-                <>
-                  <PlayIcon className="h-4 w-4" />
-                  Run Flow
-                </>
-              )}
-            </Button>
+            <div>
+              <h2 className="font-semibold m-0 bg-gray-200 p-2">New Flow</h2>
+            </div>
+            <div>
+              <Button
+                onClick={handleSaveFlow}
+                disabled={isLoadingSaveFlow}
+                className="px-3 py-1 bg-blue-500  text-white rounded"
+              >
+                {isLoadingSaveFlow ? (
+                  <>
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                    Saving...
+                  </>
+                ) : (
+                  <>
+                    <File className="h-4 w-4" />
+                    Save Flow
+                  </>
+                )}
+              </Button>
+              <Button
+                onClick={handleRunFlow}
+                disabled={isLoadingAiResponse}
+                className="px-3 py-1 bg-green-500  text-white rounded-xl"
+              >
+                {isLoadingAiResponse ? (
+                  <>
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                    Running...
+                  </>
+                ) : (
+                  <>
+                    <PlayIcon className="h-4 w-4" />
+                    Run Flow
+                  </>
+                )}
+              </Button>
+            </div>
+
           </div>
 
           {/* FLOW AREA */}
